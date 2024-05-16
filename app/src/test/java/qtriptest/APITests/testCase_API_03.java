@@ -3,19 +3,14 @@ package qtriptest.APITests;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.http.Method;
-import io.restassured.module.jsv.JsonSchemaValidator;
-import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+
 import org.json.JSONObject;
-import org.openqa.selenium.json.Json;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import static org.hamcrest.Matchers.*;
-import java.io.File;
-import java.util.LinkedHashMap;
 import java.util.Random;
-import java.util.UUID;
 
 public class testCase_API_03 {
 
@@ -41,7 +36,12 @@ public class testCase_API_03 {
         String username = generateRandomString(10) + "@gmail.com";
         String password = generateRandomString(5) + "@123";
 
-        String jsonString = "{\"email\":\""+ username +"\",\"password\":\""+ password +"\",\"confirmpassword\":\""+ password +"\"}";
+        // String jsonString = "{\"email\":\""+ username +"\",\"password\":\""+ password +"\",\"confirmpassword\":\""+ password +"\"}";
+
+        JSONObject json = new JSONObject();
+        json.put("email", username);
+        json.put("password", password);
+        json.put("confirmpassword", password);
 
         RestAssured.baseURI = "https://content-qtripdynamic-qa-backend.azurewebsites.net";
         RestAssured.basePath = "/api/v1/register";
@@ -50,7 +50,7 @@ public class testCase_API_03 {
 
         RequestSpecification httpRegister = RestAssured.given();
         httpRegister.contentType(ContentType.JSON);
-        httpRegister.body(jsonString);
+        httpRegister.body(json.toString());
 
         Response registerResponse = httpRegister.request(Method.POST);
 
@@ -60,7 +60,11 @@ public class testCase_API_03 {
 
         //For Login API
 
-        jsonString = "{\"email\":\""+ username +"\",\"password\":\""+ password +"\"}";
+        // jsonString = "{\"email\":\""+ username +"\",\"password\":\""+ password +"\"}";
+
+        JSONObject jsonLogin = new JSONObject();
+        jsonLogin.put("email", username);
+        jsonLogin.put("password", password);
 
         RestAssured.basePath = "/api/v1/login";
 
@@ -68,7 +72,7 @@ public class testCase_API_03 {
 
         RequestSpecification httpLogin = RestAssured.given();
         httpLogin.contentType(ContentType.JSON);
-        httpLogin.body(jsonString);
+        httpLogin.body(jsonLogin.toString());
 
         Response loginResponse = httpLogin.request(Method.POST);
 
@@ -86,11 +90,18 @@ public class testCase_API_03 {
 
         RestAssured.basePath = "/api/v1/reservations/new";
 
-        jsonString = "{\"userId\":\""+ userId +"\",\"name\":\"testuser\",\"date\":\"2024-09-09\",\"person\":\"1\",\"adventure\":\"2447910730\"}";
+        // jsonString = "{\"userId\":\""+ userId +"\",\"name\":\"testuser\",\"date\":\"2024-09-09\",\"person\":\"1\",\"adventure\":\"2447910730\"}";
+
+        JSONObject jsonReservation = new JSONObject();
+        jsonReservation.put("userId", userId);
+        jsonReservation.put("name", "testuser");
+        jsonReservation.put("date", "2024-09-09");
+        jsonReservation.put("person", "1");
+        jsonReservation.put("adventure", "2447910730");
 
         RequestSpecification httpReserve = RestAssured.given();
         httpReserve.contentType(ContentType.JSON);
-        httpReserve.body(jsonString);
+        httpReserve.body(jsonReservation.toString());
         httpReserve.header("Authorization", "Bearer " + token );
 
         Response response_Reservation = httpReserve.request(Method.POST);

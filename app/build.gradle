@@ -59,7 +59,7 @@ dependencies {
 test {
     useTestNG() {
         useDefaultListeners = true // generates the test report
-        includeGroups 'Login Flow'
+        includeGroups 'API Tests'
     }
      afterSuite { desc, result ->
             if (!desc.parent) {

@@ -59,7 +59,11 @@ public class testCase_API_01 {
 
         //For Login API
 
-        jsonString = "{\"email\":\""+ username +"\",\"password\":\""+ password +"\"}";
+        // jsonString = "{\"email\":\""+ username +"\",\"password\":\""+ password +"\"}";
+
+        JSONObject json = new JSONObject();
+        json.put("email", username);
+        json.put("password", password);
 
         RestAssured.basePath = "/api/v1/login";
 
@@ -67,7 +71,8 @@ public class testCase_API_01 {
 
         RequestSpecification httpLogin = RestAssured.given();
         httpLogin.contentType(ContentType.JSON);
-        httpLogin.body(jsonString);
+        // httpLogin.body(jsonString);
+        httpLogin.body(json.toString());
 
         Response loginResponse = httpLogin.request(Method.POST);
 
