@@ -22,7 +22,10 @@ dependencies {
     
 
     implementation 'org.seleniumhq.selenium:selenium-java:4.1.0'
-    implementation 'io.github.bonigarcia:webdrivermanager:5.1.0'
+    
+    // https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager
+    implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.8.0'
+
 
     // Exclude conflicting Google Guava version from WebDriverManager
     // implementation ('io.github.bonigarcia:webdrivermanager:5.1.0') {
@@ -59,7 +62,7 @@ dependencies {
 test {
     useTestNG() {
         useDefaultListeners = true // generates the test report
-        includeGroups 'API Tests'
+        includeGroups 'API Tests' //'Login Flow'  //'API Tests'
     }
      afterSuite { desc, result ->
             if (!desc.parent) {

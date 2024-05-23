@@ -40,7 +40,11 @@ public class testCase_API_01 {
         String username = generateRandomString(10) + "@gmail.com";
         String password = generateRandomString(5) + "@123";
 
-        String jsonString = "{\"email\":\""+ username +"\",\"password\":\""+ password +"\",\"confirmpassword\":\""+ password +"\"}";
+        //String jsonString = "{\"email\":\""+ username +"\",\"password\":\""+ password +"\",\"confirmpassword\":\""+ password +"\"}";
+        JSONObject jsonRegister = new JSONObject();
+        jsonRegister.put("email", username);
+        jsonRegister.put("password", password);
+        jsonRegister.put("confirmpassword", password);
 
         RestAssured.baseURI = "https://content-qtripdynamic-qa-backend.azurewebsites.net";
         RestAssured.basePath = "/api/v1/register";
@@ -49,7 +53,7 @@ public class testCase_API_01 {
 
         RequestSpecification httpRegister = RestAssured.given();
         httpRegister.contentType(ContentType.JSON);
-        httpRegister.body(jsonString);
+        httpRegister.body(jsonRegister.toString());
 
         Response registerResponse = httpRegister.request(Method.POST);
 
